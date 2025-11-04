@@ -1,42 +1,29 @@
 import './App.css'
+import { useState } from 'react'
+import Header from './components/Header.jsx'
+import GameBoard from './components/GameBoard.jsx'
+import StartScreen from './components/StartScreen.jsx'
 
 function App() {
+    const [phase, setPhase] = useState('start')
+    const items = [
+        { id: 't1', title: 'Tablo 1' },
+        { id: 't2', title: 'Tablo 2' },
+        { id: 't3', title: 'Tablo 3' },
+    ]
 
-  return (
-    <div className="app-root">
-      <header>
-        <h1>Ai Resmi Seçme Oyunu Projesi </h1>
-        <p>Aşağıdaki resimlerden hangisi yapay zeka tarafından üretilmiştir</p>
-      </header>
+    function handleSelect() {}
+    function startGame() { setPhase('playing') }
 
-      <main className="tables-grid">
-        {[0, 1, 2].map((i) => (
-          <section className="table-card" key={i}>
-            <h2>Tablo {i + 1}</h2>
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>Başlık 1</th>
-                  <th>Başlık 2</th>
-                  <th>Başlık 3</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-
-            <div className="table-actions">
-              <button className="select-btn" onClick={() => { }}>
-                Bu resmi seç
-              </button>
-            </div>
-          </section>
-        ))}
-      </main>
-
-      
-    </div>
-  )
+    return (
+        <div className="app-root">
+            <Header />
+            {phase === 'start' && <StartScreen onStart={startGame} />}
+            {phase === 'playing' && (
+                <GameBoard items={items} onSelect={handleSelect} disabled={false} />
+            )}
+        </div>
+    )
 }
 
 export default App
