@@ -4,6 +4,8 @@ import Header from './components/Header.jsx'
 import GameBoard from './components/GameBoard.jsx'
 import StartScreen from './components/StartScreen.jsx'
 
+//SINAV HAFTASI
+
 function App() {
     const [phase, setPhase] = useState('start')
     const items = [
