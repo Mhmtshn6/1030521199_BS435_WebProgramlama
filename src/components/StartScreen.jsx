@@ -13,6 +13,7 @@ export default function StartScreen({
             <h3>Kurallar</h3>
             <ul className="rules">
                 <li>Üç tablodan biri AI üretimi, ikisi gerçektir.</li>
+                <li>İlk tahminin yanlışsa ipucu alır ve ikinci şans kullanırsın.</li>
             </ul>
             <div className="mode-form">
                 <label>
