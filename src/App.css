@@ -83,6 +83,12 @@
   border-bottom: 1px dashed #eee;
 }
 
+.image-description {
+  font-size: 0.9rem;
+  color: #4b5563;
+  margin: 0 0 0.75rem;
+}
+
 .table-actions {
   display: flex;
   align-items: center;
