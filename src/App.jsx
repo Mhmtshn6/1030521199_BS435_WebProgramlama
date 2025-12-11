@@ -1,16 +1,18 @@
 import './App.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Header from './components/Header.jsx'
 import GameBoard from './components/GameBoard.jsx'
 import StartScreen from './components/StartScreen.jsx'
 import ResultModal from './components/ResultModal.jsx'
 import { generateMockRound } from './game/mockData.js'
+import { fetchRound, sendResult } from './api/client.js'
 
 function App() {
     const difficultyOptions = ['Kolay', 'Orta', 'Zor']
     const categoryOptions = ['Manzara', 'Portre', 'Nesne']
 
     const [phase, setPhase] = useState('start')
+    const [useBackend, setUseBackend] = useState(false)
     const [difficulty, setDifficulty] = useState(difficultyOptions[0])
     const [category, setCategory] = useState(categoryOptions[0])
     const [round, setRound] = useState(null)
@@ -18,14 +20,35 @@ function App() {
     const [hintMessage, setHintMessage] = useState('')
     const [score, setScore] = useState(0)
     const [result, setResult] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
 
-    function beginRound() {
-        const nextRound = generateMockRound({ difficulty, category })
-        setRound(nextRound)
-        setGuesses([])
-        setHintMessage('')
-        setResult(null)
-        setPhase('playing')
+    async function beginRound() {
+        setLoading(true)
+        setError('')
+        try {
+            let nextRound
+            if (useBackend) {
+                nextRound = await fetchRound({ difficulty, category })
+            } else {
+                nextRound = generateMockRound({ difficulty, category })
+            }
+            setRound(nextRound)
+            setGuesses([])
+            setHintMessage('')
+            setResult(null)
+            setPhase('playing')
+        } catch (err) {
+            setError('Sunucuya bağlanırken sorun oluştu. Mock veriyle devam ediyoruz.')
+            const fallback = generateMockRound({ difficulty, category })
+            setRound(fallback)
+            setGuesses([])
+            setHintMessage('')
+            setResult(null)
+            setPhase('playing')
+        } finally {
+            setLoading(false)
+        }
     }
 
     function handleSelect(id) {
@@ -54,6 +77,25 @@ function App() {
         beginRound()
     }
 
+    useEffect(() => {
+        async function handleSendResult() {
+            if (!useBackend || !round || !result || phase !== 'result') return
+            const payload = {
+                correct: result === 'win',
+                attempts: guesses.length,
+                score,
+                difficulty,
+                category,
+            }
+            try {
+                await sendResult(payload)
+            } catch (err) {
+                // Sessiz geç; UI'yı kilitleme
+            }
+        }
+        handleSendResult()
+    }, [useBackend, round, result, phase, guesses.length, score, difficulty, category])
+
     return (
         <div className="app-root">
             <Header />
@@ -66,6 +108,8 @@ function App() {
                     category={category}
                     onDifficultyChange={setDifficulty}
                     onCategoryChange={setCategory}
+                    useBackend={useBackend}
+                    onToggleBackend={setUseBackend}
                 />
             )}
             {phase !== 'start' && (
@@ -74,7 +118,10 @@ function App() {
                         <span>Zorluk: {difficulty}</span>
                         <span>Kategori: {category}</span>
                         <span>Skor: {score}</span>
+                        <span>Kaynak: {useBackend ? 'Backend' : 'Mock'}</span>
                     </div>
+                    {loading && <div className="status-panel"><span>Yükleniyor...</span></div>}
+                    {error && <div className="error-banner">{error}</div>}
                     {phase === 'playing' && (
                         <>
                             <div className="status-panel">

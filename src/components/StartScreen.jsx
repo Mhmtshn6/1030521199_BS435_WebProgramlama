@@ -6,6 +6,8 @@ export default function StartScreen({
     category,
     onDifficultyChange,
     onCategoryChange,
+    useBackend,
+    onToggleBackend,
 }) {
     return (
         <section className="start-screen">
@@ -31,6 +33,16 @@ export default function StartScreen({
                             <option key={opt} value={opt}>{opt}</option>
                         ))}
                     </select>
+                </label>
+            </div>
+            <div className="mode-form">
+                <label className="toggle-row">
+                    <input
+                        type="checkbox"
+                        checked={useBackend}
+                        onChange={(e) => onToggleBackend(e.target.checked)}
+                    />
+                    <span>Backend kullan (kapalıysa mock veri)</span>
                 </label>
             </div>
             <button className="primary" onClick={onStart}>Başla</button>
