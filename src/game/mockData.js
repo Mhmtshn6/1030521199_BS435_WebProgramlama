@@ -3,9 +3,9 @@ const hintByCategory = {
 		'Horizon çizgisinde tutarsızlık var mı bak.',
 		'Ağaç ve taş gibi tekrar eden dokulara odaklan.',
 	],
-	Portre: [
-		'Gözlerdeki ışık yansımaları doğal mı kontrol et.',
-		'Yüz simetrisi fazla kusursuz mu incele.',
+	Hayvan: [
+		'Tüy veya kürk dokusu doğal mı kontrol et.',
+		'Gözlerdeki ışık yansımaları gerçekçi mi incele.',
 	],
 	Nesne: [
 		'Yansımalar fiziksel olarak doğru mu değerlendir.',
@@ -40,24 +40,24 @@ const imagesByCategory = {
 			imageUrl: 'https://picsum.photos/seed/beach-real-3/480/320',
 		},
 	],
-	Portre: [
+	Hayvan: [
 		{
 			id: 'a',
-			title: 'Genç kadın portresi',
-			description: 'Stüdyoda çekilmiş yumuşak ışıklı portre.',
-			imageUrl: 'https://picsum.photos/seed/portrait-real-1/480/320',
+			title: 'Kedi portresi',
+			description: 'Doğal ışıkta çekilmiş kedi fotoğrafı.',
+			imageUrl: 'https://picsum.photos/seed/cat-real-1/480/320',
 		},
 		{
 			id: 'b',
-			title: 'Yaşlı adam portresi',
-			description: 'Yüz çizgileri belirgin, karakteristik bir ifade.',
-			imageUrl: 'https://picsum.photos/seed/portrait-real-2/480/320',
+			title: 'Köpek fotoğrafı',
+			description: 'Açık havada çekilmiş köpek görüntüsü.',
+			imageUrl: 'https://picsum.photos/seed/dog-real-2/480/320',
 		},
 		{
 			id: 'c',
-			title: 'Profil portre',
-			description: 'Yandan görünüm, saç detayları önde.',
-			imageUrl: 'https://picsum.photos/seed/portrait-real-3/480/320',
+			title: 'Yaban hayatı',
+			description: 'Doğal ortamda hayvan görüntüsü.',
+			imageUrl: 'https://picsum.photos/seed/wildlife-real-3/480/320',
 		},
 	],
 	Nesne: [
